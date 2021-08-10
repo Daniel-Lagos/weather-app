@@ -1,18 +1,50 @@
 require('colors');
+require('dotenv').config();
 
-const { readInput, pause, inquirerMenu } = require('./helper/inquirer');
+const Searches = require('./models/searches');
+const {
+  readInput,
+  pause,
+  inquirerMenu,
+  listPlaces
+} = require('./helper/inquirer');
 
 const main = async () => {
 
   let opt;
+
+  const searches = new Searches();
 
   do {
     console.clear();
 
     opt = await inquirerMenu();
 
+    switch (opt) {
+      case 1:
+        //TODO: Show message
+        const textSearch = await readInput('City: ');
+        const places = await searches.city(textSearch);
+        const idSelected = await listPlaces(places);
+        const placeSelected = places.find((place) => place.id === idSelected);
 
-    await pause();
+        console.log('\n Place Information \n'.green);
+        console.log('City:', placeSelected.name);
+        console.log('Length:', placeSelected.lng);
+        console.log('Latitude:', placeSelected.lat);
+        console.log('City:', placeSelected.name);
+
+        break;
+      case 2:
+
+        break;
+      case 0:
+
+        break;
+
+    }
+
+    if (opt !== 0) await pause();
 
   } while (opt !== 0);
 

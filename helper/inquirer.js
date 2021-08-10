@@ -58,20 +58,19 @@ const readInput = async (message) => {
       }
     }
   ];
-
   const { desc } = await inquirer.prompt(question);
   return desc;
 
 };
 
-const deleteTask = async (task = []) => {
-  const choices = task.map((task, i) => {
+const listPlaces = async (places = []) => {
+  const choices = places.map((place, i) => {
 
     const idx = `${i + 1}.`.green;
 
     return {
-      value: task.id,
-      name: `${idx} ${task.description}`
+      value: place.id,
+      name: `${idx} ${place.name}`
     };
   });
 
@@ -84,7 +83,7 @@ const deleteTask = async (task = []) => {
     {
       type: 'list',
       name: 'id',
-      message: 'Delete',
+      message: 'Selection place:',
       choices
     }
   ];
@@ -137,7 +136,7 @@ module.exports = {
   inquirerMenu,
   pause,
   readInput,
-  deleteTask,
+  listPlaces,
   showChecklist,
   confirm
 };
