@@ -85,6 +85,7 @@ class Searches {
   }
 
   readDB() {
+    if (!fs.existsSync(this.path)) return;
     const fileData = fs.readFileSync(this.path, { encoding: 'utf-8' });
     this.history = JSON.parse(fileData).history;
   }

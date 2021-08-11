@@ -52,12 +52,8 @@ const main = async () => {
           console.log(`${idx} ${place}`);
         });
         break;
-      case 0:
-
-        break;
-
     }
-
+    searches.saveDB();
     if (opt !== 0) await pause();
 
   } while (opt !== 0);
