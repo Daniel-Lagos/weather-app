@@ -35,6 +35,31 @@ class Searches {
     }
   }
 
+  async placeWeather(lat, lon) {
+    try {
+      const instance = axios.create({
+        baseURL: `https://api.openweathermap.org/data/2.5/weather`,
+        params: {
+          lat,
+          lon,
+          'appid': process.env.OPENWEATHER_KEY,
+          'units': 'metric',
+          'lang': 'es'
+        }
+      });
+      const { data } = await instance.get();
+      return {
+        description: data.weather[0].description,
+        min: data.main.temp_min,
+        max: data.main.temp_max,
+        temp: data.main.temp,
+      };
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+
 }
 
 module.exports = Searches;
