@@ -12,8 +12,11 @@ class Searches {
   }
 
   get capitalHistory() {
-
-    return this.history;
+    return this.history.map((place) => {
+      let words = place.split(' ');
+      words = words.map(w => w[0].toUpperCase() + w.substring(1));
+      return words.join(' ');
+    });
   }
 
   get paramsMapBox() {
@@ -72,9 +75,6 @@ class Searches {
       return;
     }
     this.history.unshift(place.toLocaleLowerCase());
-
-    //Save in db
-
   };
 
   saveDB() {
@@ -87,7 +87,8 @@ class Searches {
   readDB() {
     if (!fs.existsSync(this.path)) return;
     const fileData = fs.readFileSync(this.path, { encoding: 'utf-8' });
-    this.history = JSON.parse(fileData).history;
+    const data = JSON.parse(fileData);
+    this.history = data.history;
   }
 
 }
