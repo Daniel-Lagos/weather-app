@@ -25,7 +25,13 @@ const main = async () => {
         const textSearch = await readInput('City: ');
         const places = await searches.city(textSearch);
         const idSelected = await listPlaces(places);
+
+        if (idSelected === '0') continue;
+
         const placeSelected = places.find((place) => place.id === idSelected);
+
+        searches.addHistory(placeSelected.name);
+
         const weatherPlaceSelected = await searches.placeWeather(
           placeSelected.lat, placeSelected.lng);
 
@@ -41,7 +47,10 @@ const main = async () => {
 
         break;
       case 2:
-
+        searches.capitalHistory.forEach((place, index) => {
+          const idx = `${index + 1}.`.green;
+          console.log(`${idx} ${place}`);
+        });
         break;
       case 0:
 

@@ -1,11 +1,19 @@
+const fs = require('fs');
+
 const axios = require('axios');
 
 class Searches {
 
-  history = [''];
+  history = [];
+  path = './db/database.json';
 
   constructor() {
-    //TODO: read db if it exists
+    this.readDB();
+  }
+
+  get capitalHistory() {
+
+    return this.history;
   }
 
   get paramsMapBox() {
@@ -59,6 +67,27 @@ class Searches {
     }
   }
 
+  addHistory = (place = '') => {
+    if (this.history.includes(place.toLocaleLowerCase())) {
+      return;
+    }
+    this.history.unshift(place.toLocaleLowerCase());
+
+    //Save in db
+
+  };
+
+  saveDB() {
+    const payload = {
+      history: this.history
+    };
+    fs.writeFileSync(this.path, JSON.stringify(payload));
+  }
+
+  readDB() {
+    const fileData = fs.readFileSync(this.path, { encoding: 'utf-8' });
+    this.history = JSON.parse(fileData).history;
+  }
 
 }
 
